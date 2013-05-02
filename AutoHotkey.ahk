@@ -737,20 +737,20 @@ return
 ;          <CAS>O -- Launch/Activate Outlook Mail
 ;------------------------------------------------
 ^!+o::
-   Run, C:\Program Files\Microsoft Office\OFFICE11\OUTLOOK.EXE  /recycle
+   Run, C:\Program Files\Microsoft Office\OFFICE14\OUTLOOK.EXE  /recycle
 return
 
 ;------------------------------------------------
 ;       <CA>C -- Launch/Activate Outlook Calendar
 ;------------------------------------------------
 ^!C:: ; Launch calendar
-IfWinExist, Calendar - Microsoft Outlook
+IfWinExist, Calendar - Mailbox - Kerr
 {
   WinActivate
 }
 else
 {
-  Run, C:\Program Files\Microsoft Office\OFFICE11\OUTLOOK.EXE /select outlook:calendar
+  Run, C:\Program Files\Microsoft Office\OFFICE14\OUTLOOK.EXE /select outlook:calendar
 }
 return
 
@@ -766,12 +766,32 @@ return
 ;    <CS>M -- Outlook New Message
 ;------------------------------------------------
 ^+M::
-  Run, C:\Program Files\Microsoft Office\OFFICE11\OUTLOOK.EXE /c ipm.note
+  Run, C:\Program Files\Microsoft Office\OFFICE14\OUTLOOK.EXE /c ipm.note
 return
 
 
 
 
+;******************************************************
+;**
+;** Mouse configuration
+;**
+;******************************************************
+^!+`::
+;   Run, main.cpl
+   Run, rundll32.exe shell32.dll`, Control_RunDLL main.cpl`,`,1
+   WinWait, Mouse Properties
+   WinActivate
+;   GuiControl, Choose, SysTabControl321, 1
+;   GuiControl, ChooseString, SysTabControl321, Buttons
+   Sleep, 500
+   Send, ^{TAB} 
+   Sleep, 50
+;   GuiControl, Checkbox, Button2, 0
+   ControlClick, Button2
+;   ControlClick, ,Mouse Properties,OK
+   Send, {ENTER}
+return
 
 ;*****************************************************************************
 ;*****************************************************************************
@@ -804,22 +824,6 @@ return
 ^!-::
 {
   WinSet,AlwaysOnTop,Toggle,A
-}
-return
-
-
-^!+Del::
-{
-   DetectHiddenWindows, On
-   SetTitleMatchMode, 2
-   GroupAdd, ut_windows, unicode\UnitTests.exe
-   GroupAdd, ut_windows, unicode\MonitorPimConnection.exe
-   WinHide, ahk_group ut_windows
-   WinGet, num_ut_windows, Count, unicode\UnitTests.exe
-   WinGet, num_mpc_windows, Count, unicode\MonitorPimConnection.exe
-   num_hidden_windows := num_ut_windows+num_mpc_windows
-   TrayTip, Hiding Unit Test Windows, Now hiding %num_hidden_windows% dead windows..., 2, 1, 1
-   DetectHiddenWindows, %are_hidden%
 }
 return
 
@@ -1332,6 +1336,13 @@ return
 ;--------------------------------------------
 ^+h::
   Run, C:\utils\Putty @Home
+return
+
+;------------------------------------------------
+; Launch KeePass
+;------------------------------------------------
+^+k::
+  Run, c:\KeePass\KeePass.exe, C:\KP
 return
 
 ;------------------------------------------------
