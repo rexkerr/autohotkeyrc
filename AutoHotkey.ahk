@@ -176,7 +176,7 @@ RHAPSODY_WINCLASS = TEST_WIN32WND
 ;**************************************************************************
 ; Read Configuration Values                                             {{{
 ;**************************************************************************
-config_file = C:\ahk.personal.rc
+config_file = %A_ScriptDir%\ahk.personal.rc
 b_hasfirefox:=false
 b_hasea:=false
 b_hasscm:=false
