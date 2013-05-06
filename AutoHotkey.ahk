@@ -353,6 +353,11 @@ Loop, Read, %config_file%
    }
 }
 
+IfNotExist, %s_actual_script%
+{
+   MsgBox, 16, ERROR, 'actualscript' setting points to an invalid file:  %s_actual_script%
+}
+
 FileGetSize, config_file_exists, %config_file%
 if config_file_exists =
 {
@@ -447,7 +452,7 @@ Desktop       ; %A_Desktop%
 ;----Read the configuration file.
 f_AtStartingPos = n
 f_MenuItemCount = 0
-Loop, Read, %A_ScriptFullPath%
+Loop, Read, %s_actual_script%
 {
    ; Skip over all lines until the starting line is arrived at.
    if f_AtStartingPos = n
