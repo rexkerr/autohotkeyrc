@@ -177,6 +177,7 @@ RHAPSODY_WINCLASS = TEST_WIN32WND
 ; Read Configuration Values                                             {{{
 ;**************************************************************************
 config_file = %A_ScriptDir%\ahk.personal.rc
+b_haschrome:=false
 b_hasfirefox:=false
 b_hasea:=false
 b_hasscm:=false
@@ -185,6 +186,7 @@ b_hasexcel:=false
 b_hasvisualstudio:=false
 b_useVolumeOSD:=true
 b_preventScreenSaver:=false
+s_actual_script = %A_ScriptFullPath%
 
 ; Default to Windows Media Player if a default player isn't specfied
 defaultmediaplayercommand=wmplayer
@@ -224,7 +226,13 @@ Loop, Read, %config_file%
       continue
    }
    
-   IfInString, A_LoopReadLine, leftmonitor
+   IfInString, A_LoopReadLine, actualscript
+   {
+     StringSplit, f_line, A_LoopReadLine, `=
+     f_line2 = %f_line2%  ; Trim leading and trailing spaces.
+     s_actual_script = %f_line2%
+   }
+   else IfInString, A_LoopReadLine, leftmonitor
    {
      StringSplit, f_line, A_LoopReadLine, `=
      f_line2 = %f_line2%  ; Trim leading and trailing spaces.
@@ -262,6 +270,13 @@ Loop, Read, %config_file%
      f_line2 = %f_line2%  ; Trim leading and trailing spaces.
      eacommand = %f_line2%
      b_hasea:=true
+   }
+   else IfInString, A_LoopReadLine, chromecommand
+   {
+     StringSplit, f_line, A_LoopReadLine, `=
+     f_line2 = %f_line2%  ; Trim leading and trailing spaces.
+     chromecommand = %f_line2%
+     b_haschrome:=true
    }
    else IfInString, A_LoopReadLine, firefoxcommand
    {
@@ -348,6 +363,7 @@ if config_file_exists =
    FileAppend, `;defaultmediaplayercommand=`n,%config_file%
    FileAppend, `;eacommand=`n,%config_file%
    FileAppend, `;excelcommand=`n,%config_file%
+   FileAppend, `;chromecommand=`n,%config_file%
    FileAppend, `;firefoxcommand=`n,%config_file%
    FileAppend, `;mswordcommand=`n,%config_file%
    FileAppend, `;scmcommand=`n,%config_file%
@@ -372,6 +388,7 @@ if config_file_exists =
    FileAppend, `;preventVolumeOSD`n,%config_file%
    FileAppend, `;leftmonitor=1`n, %config_file%
    FileAppend, `;rightmonitor=2`n, %config_file%
+   FileAppend, `;actualscript=`n, %config_file%
    FileAppend, `n,%config_file%
    FileAppend, `; Last line comment since AHK doesn't seem to handle a non terminated`n, %config_file%
    FileAppend, `; last line... this'll prevent accidental problems`n, %config_file%
@@ -1266,8 +1283,14 @@ return
 return
 
 ^+g::
-  ; TODO:  Put this in the config file
-  Run, "C:\Documents and Settings\rkerr\Local Settings\Application Data\Google\Chrome\Application\chrome.exe"
+  if b_haschrome
+  {
+     Run, %chromecommand%
+  }
+  else
+  {
+     MsgBox, Set chromecommand in %config_file% to run Chrome
+  }
 return
 
 ;------------------------------------------------
@@ -2947,12 +2970,12 @@ AddEARequirement(is_functional)   ;{{{
 ;**************************************************************************
 ; Automatically reload this script if changed
 UPDATEDSCRIPT:
-FileGetAttrib,attribs,%A_ScriptFullPath%
+FileGetAttrib,attribs,%s_actual_script%
 IfInString,attribs,A
 {
-   FileSetAttrib,-A,%A_ScriptFullPath%
+   FileSetAttrib,-A,%s_actual_script%
    TrayTip, Rex's Macros, Updated Script!, 5, 1
-   Sleep,500
+   Sleep,2000
    Reload
 }
 Return 
@@ -2964,7 +2987,7 @@ IfInString,attribs,A
 {
    FileSetAttrib,-A,%config_file%
    TrayTip, Rex's Macros, Reloading Config!, 5, 1
-   Sleep,500
+   Sleep,2000
    Reload
 }
 Return  ;
