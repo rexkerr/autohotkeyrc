@@ -494,6 +494,7 @@ Loop, Read, %s_actual_script%
 ; Create Menus                                                          {{{
 ;
 ; Search for clipboard contents autoexecute
+Menu, SearchTypes, Add, Open in &Internet Explorer, HandleClipboard
 Menu, SearchTypes, Add, &Google, HandleClipboard
 Menu, SearchTypes, Add, Google G&DS, HandleClipboard
 Menu, SearchTypes, Add, &Wikipedia, HandleClipboard
@@ -2606,16 +2607,18 @@ return
 ; ---------------------------------------------------------------------------- 
 HandleClipboard:
    if A_ThisMenuItemPos = 1
-     Run, http://www.google.com/search?q=%Clipboard%
+     Run, IEXPLORE.EXE "%Clipboard%"
    if A_ThisMenuItemPos = 2
-     Run, http://127.0.0.1:4664/search?q=%Clipboard%&flags=68&num=10&s=R04pOTnDutX9WBY8-LWb4bxkPAU
+     Run, http://www.google.com/search?q=%Clipboard%
    if A_ThisMenuItemPos = 3
-     Run, http://en.wikipedia.org/wiki/Special:Search?search=%Clipboard%
+     Run, http://127.0.0.1:4664/search?q=%Clipboard%&flags=68&num=10&s=R04pOTnDutX9WBY8-LWb4bxkPAU
    if A_ThisMenuItemPos = 4
+     Run, http://en.wikipedia.org/wiki/Special:Search?search=%Clipboard%
+   if A_ThisMenuItemPos = 5
      Run, http://m-w.com/dictionary/%Clipboard%
-   if A_ThisMenuItemPos = 6
-     AddEARequirement(0)
    if A_ThisMenuItemPos = 7
+     AddEARequirement(0)
+   if A_ThisMenuItemPos = 8
      AddEARequirement(1)
 return
 
