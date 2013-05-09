@@ -427,8 +427,6 @@ if(b_isclient)
 ; Autoexecute section for Paste Plain functionality                        {{{
 ;*****************************************************************************
 pastecounter=0
-copycounter=0
-cutcounter=0
 Hotkey,$^v,PASTEONCE,On
 
 
@@ -436,7 +434,6 @@ Hotkey,$^v,PASTEONCE,On
 ;*****************************************************************************
 ; Autoexecute section for Favorites Folder functionality                   {{{
 ;*****************************************************************************
-;Hotkey, ~MButton, f_DisplayMenu
 Hotkey, ^!+F1, f_DisplayMenu
 
 /*
@@ -707,16 +704,16 @@ return
 ;--------- Remap Replacement for Win-L ----------
 ;------------------------------------------------
 ^!l::
-Send, #l
+   DllCall("LockWorkStation")
 return
 
 ;------------------------------------------------
 ;--------- Remap Replacement for Win-R ----------
 ;------------------------------------------------
 ^!r::
-Send, #r
-WinWait, ahk_class #32770 
-WinActivate
+   Send, #r
+   WinWait, ahk_class #32770 
+   WinActivate
 return
 ;------------------------------------------------
 
@@ -725,7 +722,7 @@ return
 ;------- Remap Replacement for Win-Break --------
 ;------------------------------------------------
 ^!SC146::
-Run, C:\WINDOWS\system32\sysdm.cpl
+   Run, C:\WINDOWS\system32\sysdm.cpl
 return
 ;------------------------------------------------
 
