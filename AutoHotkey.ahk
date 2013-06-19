@@ -757,7 +757,7 @@ return
 ;          <CAS>O -- Launch/Activate Outlook Mail
 ;------------------------------------------------
 ^!+o::
-   Run, C:\Program Files\Microsoft Office\OFFICE14\OUTLOOK.EXE  /recycle
+   Run, C:\Program Files (x86)\Microsoft Office\OFFICE14\OUTLOOK.EXE  /recycle
 return
 
 ;------------------------------------------------
@@ -770,7 +770,7 @@ IfWinExist, Calendar - Mailbox - Kerr
 }
 else
 {
-  Run, C:\Program Files\Microsoft Office\OFFICE14\OUTLOOK.EXE /select outlook:calendar
+  Run, C:\Program Files (x86)\Microsoft Office\OFFICE14\OUTLOOK.EXE /recycle /select outlook:calendar
 }
 return
 
@@ -786,7 +786,7 @@ return
 ;    <CS>M -- Outlook New Message
 ;------------------------------------------------
 ^+M::
-  Run, C:\Program Files\Microsoft Office\OFFICE14\OUTLOOK.EXE /c ipm.note
+  Run, C:\Program Files (x86)\Microsoft Office\OFFICE14\OUTLOOK.EXE /c ipm.note
 return
 
 
