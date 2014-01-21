@@ -115,7 +115,7 @@
 ; <CA >S -- Switch to SCM tool GUI window
 ; < AS>S --
 ;
-; <CAS>T --
+; <CAS>T -- Outlook Tasks
 ; <C S>T -- 
 ; <CA >T --
 ; < AS>T --
@@ -401,6 +401,8 @@ if config_file_exists =
 ;                                                                }}}
 ;**************************************************************************
 
+
+
 if(b_preventScreenSaver)
 {
    SetTimer, PREVENTSCREENSAVER, 10000
@@ -571,11 +573,23 @@ Menu, RightMonitorWindowPositionsMenu, Add, Quadrant &2, WindowPositionsFunction
 Menu, RightMonitorWindowPositionsMenu, Add, Quadrant &3, WindowPositionsFunction
 Menu, RightMonitorWindowPositionsMenu, Add, Quadrant &4, WindowPositionsFunction
 
+Menu, ColumnWindowPositionsMenu, Add, &1, WindowPositionsFunction
+Menu, ColumnWindowPositionsMenu, Add, &2, WindowPositionsFunction
+Menu, ColumnWindowPositionsMenu, Add, &3, WindowPositionsFunction
+Menu, ColumnWindowPositionsMenu, Add, &4, WindowPositionsFunction
+Menu, ColumnWindowPositionsMenu, Add, &5, WindowPositionsFunction
+Menu, ColumnWindowPositionsMenu, Add, &6, WindowPositionsFunction
+
 Menu, WindowPositionsMenu, Add, &Left, :LeftMonitorWindowPositionsMenu
 Menu, WindowPositionsMenu, Add, &Right, :RightMonitorWindowPositionsMenu
+Menu, WindowPositionsMenu, Add, &Columns, :ColumnWindowPositionsMenu
 Menu, WindowPositionsMenu, Add
 Menu, WindowPositionsMenu, Add, &Switch, WindowPositionsFunction
 
+Menu, LyncMeetingsMenu, Add, PRIVATE, LyncMeetingsFunction
+Menu, LyncMeetingsMenu, Add, PRIVATE, LyncMeetingsFunction
+Menu, LyncMeetingsMenu, Add, PRIVATE, LyncMeetingsFunction
+menu, LyncMeetingsMenu, Add, PRIVATE, LyncMeetingsFunction
 
 
 ^!+b:: 
@@ -598,16 +612,28 @@ return
 Menu, MiscCommandsMenu, show
 return
 
+^!+F6::
+Menu, LyncMeetingsMenu, show
+return
+
 ^!+F12::
 Menu, WindowPositionsMenu, show
 return
 
 
 ;                                                                       }}}
+
+
+;*****************************************************************************
+; <CAS><DEL> Toggle Script ON/OFF {{{
+^!+Delete::Suspend
+; }}}
+;*****************************************************************************
+
 ;*****************************************************************************
 WindowPositionsFunction:                                  ;{{{
 {   
-   if( A_ThisMenu = "WindowPositionsMenu" && A_ThisMenuItemPos = 4)
+   if( A_ThisMenu = "WindowPositionsMenu" && A_ThisMenuItemPos = 5)
    {
       GoSub, SwitchMonitors
       return
@@ -620,6 +646,11 @@ WindowPositionsFunction:                                  ;{{{
    else if( A_ThisMenu = "RightMonitorWindowPositionsMenu")
    {
       monnum := rightmonitor
+   }
+   else if( A_ThisMenu = "ColumnWindowPositionsMenu")
+   {
+      UseColumn( A_ThisMenuItemPos )
+      return
    }
    else
    {
@@ -667,6 +698,15 @@ WindowPositionsFunction:                                  ;{{{
       MsgBox, Ooops... AHK script error!
    }
 }
+return
+;}}}
+;*****************************************************************************
+
+
+
+;*****************************************************************************
+LyncMeetingsFunction: ;{{{
+   ; PRIVATE
 return
 ;}}}
 ;*****************************************************************************
@@ -739,6 +779,39 @@ return
 ;*****************************************************************************
 
 
+;*****************************************************************************
+; <A>` -- Cycle windows of the same winclass as the current window 
+;              (like Linux window managers does)
+;*****************************************************************************
+!`::
+  WinGetClass, currentwinclass, A
+  ; There is no way to delete or clear groups, so create a unique group per
+  ; winclass.  This is a little bit wasteful, as it potentially leaves behind a
+  ; lot of unnecessary groups, but given that it will probably be used with a
+  ; limited set of windows per run of the script, I can't imagine it leaking
+  ; too many resources...
+  groupname:="cycle_current_win_"+currentwinclass  
+  GroupAdd, %groupname%, ahk_class %currentwinclass%
+  GroupActivate, %groupname%, R
+return
+
+
+;*****************************************************************************
+; <CAS>N -- Cycle Lync Windows
+;*****************************************************************************
+^!+n::
+   GroupAdd, lync_windows, ahk_class IMWindowClass 
+   GroupAdd, lync_windows, ahk_class CommunicatorMainWindowClass
+   GroupActivate, lync_windows, R
+return
+
+;*****************************************************************************
+; <CS>N -- Open Lync main window
+;*****************************************************************************
+;^+n::
+;   Run, "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Microsoft Lync\Microsoft Lync 2010.lnk"
+;return
+
 
 ;*****************************************************************************
 ;**                                                                         **
@@ -759,6 +832,20 @@ return
 ^!+o::
    Run, C:\Program Files (x86)\Microsoft Office\OFFICE14\OUTLOOK.EXE  /recycle
 return
+
+;------------------------------------------------
+;         <CAS>T -- Launch/Activate Outlook Tasks
+;------------------------------------------------
+^!+t::
+   Run, C:\Program Files (x86)\Microsoft Office\OFFICE14\OUTLOOK.EXE /recycle /select outlook:tasks
+return
+
+;------------------------------------------------
+;                <CS>T -- Create New Outlook Task
+;------------------------------------------------
+; ^+t::
+;    Run, C:\Program Files (x86)\Microsoft Office\OFFICE14\OUTLOOK.EXE /c ipm.task
+; return
 
 ;------------------------------------------------
 ;       <CA>C -- Launch/Activate Outlook Calendar
@@ -1017,6 +1104,16 @@ UseRightHalfOfMonitor( monnum )
    leftside := GetMonitorLeft(   monnum ) + width
 
    WinMove, A,,leftside, GetMonitorTop(monnum), width, height
+}
+
+UseColumn( column )
+{
+   UnmaximizeWindow()
+
+   height := GetMonitorHeight( 1 )
+   width  := GetMonitorWidth(  1 ) / 3
+
+   WinMove, A,,(GetMonitorLeft(monnum) + (width * (column-1)) ), GetMonitorTop(monnum), width, height
 }
 
 UseTopHalfOfMonitor( monnum )
