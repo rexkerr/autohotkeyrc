@@ -487,7 +487,6 @@ Loop, Read, %s_actual_script%
 
 
 
-
 ;                                                                          }}}
 ;*****************************************************************************
 ; Create Menus                                                          {{{
@@ -510,34 +509,9 @@ if(b_isclient)
 
 
 ;  Multi Launcher
-Menu, MLMenu, Add, &XML Test Harness, MultiLauncherFunction
-Menu, MLMenu, Add
-Menu, MLMenu, Add, &DICOM Eye, MultiLauncherFunction
-Menu, MLMenu, Add, &Sante DICOM Viewer, MultiLauncherFunction
-Menu, MLMenu, Add
-Menu, MLMenu, Add, Windows &Media Player, MultiLauncherFunction
-Menu, MLMenu, Add, Spy&bot S&&D, MultiLauncherFunction
-Menu, MLMenu, Add
 Menu, MLMenu, Add, &Firefox, MultiLauncherFunction
 Menu, MLMenu, Add
-Menu, MLMenu, Add, &Pandora, MultiLauncherFunction
-Menu, MLMenu, Add, Fine&tune Desktop, MultiLauncherFunction
-Menu, MLMenu, Add, R&hapsody Music Folder, MultiLauncherFunction
-Menu, MLMenu, Add
 Menu, MLMenu, Add, &Run Clipboard Contents, RunClipboard
-
-;*****************************************************************************
-; Quick Text menus
-;*****************************************************************************
-Menu, QuickIncludePathMenu, Add, &IPP Include Path, QuickIncludeFunction
-Menu, QuickIncludePathMenu, Add, &Boost Include Path, QuickIncludeFunction
-Menu, QuickIncludePathMenu, Add, &CPPUnit Include Path, QuickIncludeFunction
-Menu, QuickIncludePathMenu, Add, &XML Include Path, QuickIncludeFunction
-
-Menu, QuickLibraryPathMenu, Add, &IPP Library Path, QuickLibraryPathFunction
-Menu, QuickLibraryPathMenu, Add, &Boost Library Path, QuickLibraryPathFunction
-Menu, QuickLibraryPathMenu, Add, &CPPUnit Library Path, QuickLibraryPathFunction
-Menu, QuickLibraryPathMenu, Add, &XML Library Path, QuickLibraryPathFunction
 
 ;*****************************************************************************
 ; Misc Commands
@@ -587,9 +561,6 @@ Menu, WindowPositionsMenu, Add
 Menu, WindowPositionsMenu, Add, &Switch, WindowPositionsFunction
 
 Menu, LyncMeetingsMenu, Add, PRIVATE, LyncMeetingsFunction
-Menu, LyncMeetingsMenu, Add, PRIVATE, LyncMeetingsFunction
-Menu, LyncMeetingsMenu, Add, PRIVATE, LyncMeetingsFunction
-menu, LyncMeetingsMenu, Add, PRIVATE, LyncMeetingsFunction
 
 
 ^!+b:: 
@@ -598,14 +569,6 @@ return
 
 ^!+F2:: 
 Menu, MLMenu, show
-return
-
-^!+F3::
-Menu, QuickIncludePathMenu, show
-return
-
-^!+F4::
-Menu, QuickLibraryPathMenu, show
 return
 
 ^!+F5::
@@ -2608,19 +2571,6 @@ Return
 ; ---------------------------------------------------------------------------- 
 MultiLauncherFunction:
    if A_ThisMenuItemPos = 1
-   ; -- 2 = divider
-     Run, D:\development\Testing\TestHarnessMockup\release\TestHarnessMockup.exe
-   if A_ThisMenuItemPos = 3
-     Run, C:\DicomEye\DCMEYE32.EXE
-   if A_ThisMenuItemPos = 4
-     Run, C:\Program Files\SViewer\SViewer.exe
-   ; -- 5 = divider
-   if A_ThisMenuItemPos = 6
-     Run, "C:\Program Files\Windows Media Player\wmplayer.exe" /prefetch:1
-   if A_ThisMenuItemPos = 7
-     Run, "C:\Program Files\Spybot - Search & Destroy\SpybotSD.exe"
-   ; -- 8 = divider
-   if A_ThisMenuItemPos = 9
       {
          if b_hasfirefox
          {
@@ -2632,46 +2582,7 @@ MultiLauncherFunction:
             Run, %fallbackbrowser%
          }
       }
-   ; -- 10 = divider
-   if A_ThisMenuItemPos = 11
-     IfWinNotExist, Pandora Radio
-       Run,IEXPLORE.EXE "http://www.pandora.com/?cmd=mini"
-     Else
-       WinActivate
-   if A_ThisMenuItemPos = 12
-     IfWinNotExist, Finetune Desktop
-       ; TODO:  Clean up
-       Run, "C:\Documents and Settings\rkerr\Local Settings\Application Data\Finetune\Finetune Desktop\Finetune Desktop.exe"
-     Else
-       WinActivate
-   if A_ThisMenuItemPos = 13
-      Run, "C:\Documents and Settings\All Users\Documents\My Music\Rhapsody\Rhapsody\rhapsody@twowheels.us"
    ; -- After this is the run clipboard contents item
-return
-
-; ---------------------------------------------------------------------------- 
-;    Quick Text Menu items
-; ---------------------------------------------------------------------------- 
-QuickIncludeFunction:
-   if A_ThisMenuItemPos = 1
-      Send, $(LIBRARY_PATH)\3rdParty\Intel\ipp\5.1\ia32\include
-   if A_ThisMenuItemPos = 2
-      Send, $(LIBRARY_PATH)\3rdParty\boost\boost-1_33_1\include\boost-1_33_1
-   if A_ThisMenuItemPos = 3
-      Send, $(LIBRARY_PATH)\3rdParty\cppunit\cppunit-1.10.2\include
-   if A_ThisMenuItemPos = 4
-      Send, $(LIBRARY_PATH)\XML
-return
-
-QuickLibraryPathFunction:
-   if A_ThisMenuItemPos = 1
-      Send, $(LIBRARY_PATH)\3rdParty\Intel\ipp\5.1\ia32\stublib
-   if A_ThisMenuItemPos = 2
-      Send, $(LIBRARY_PATH)\3rdParty\boost\boost-1_33_1\lib
-   if A_ThisMenuItemPos = 3
-      Send, $(LIBRARY_PATH)\3rdParty\cppunit\cppunit-1.10.2\lib
-   if A_ThisMenuItemPos = 4
-      Send, $(LIBRARY_PATH)\XML\LibXMLLib
 return
 
 MiscCommandsFunction:
