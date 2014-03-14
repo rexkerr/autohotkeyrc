@@ -510,6 +510,7 @@ if(b_isclient)
 
 ;  Multi Launcher
 Menu, MLMenu, Add, &Firefox, MultiLauncherFunction
+Menu, MLMenu, Add, &Calc, MultiLauncherFunction
 Menu, MLMenu, Add
 Menu, MLMenu, Add, &Run Clipboard Contents, RunClipboard
 
@@ -2582,6 +2583,19 @@ MultiLauncherFunction:
             Run, %fallbackbrowser%
          }
       }
+   if A_ThisMenuItemPos = 2
+   {
+      SetTitleMatchMode, 3
+
+      IfWinExist, Calculator
+      {
+         WinActivate
+      }
+      else
+      {
+         Run, calc
+      }
+   }
    ; -- After this is the run clipboard contents item
 return
 
