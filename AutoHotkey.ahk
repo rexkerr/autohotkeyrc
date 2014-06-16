@@ -510,6 +510,7 @@ if(b_isclient)
 
 ;  Multi Launcher
 Menu, MLMenu, Add, &Firefox, MultiLauncherFunction
+Menu, MLMenu, Add, &Calc, MultiLauncherFunction
 Menu, MLMenu, Add
 Menu, MLMenu, Add, &Run Clipboard Contents, RunClipboard
 
@@ -560,6 +561,10 @@ Menu, WindowPositionsMenu, Add, &Columns, :ColumnWindowPositionsMenu
 Menu, WindowPositionsMenu, Add
 Menu, WindowPositionsMenu, Add, &Switch, WindowPositionsFunction
 
+;*****************************************************************************
+;    END OF AUTORUN, INCLUDING MACHINE SPECIFIC FILE WHICH MIGHT END IT
+;*****************************************************************************
+#Include %A_ScriptDir%\this_machine.ahk
 
 ^!+b:: 
 Menu, SearchTypes, show
@@ -661,6 +666,13 @@ return
 ;*****************************************************************************
 ;  Windows Key Replacement Mappings                                        {{{
 ;*****************************************************************************
+
+;------------------------------------------------
+;--------- Remap Replacement for Win-P ----------
+;------------------------------------------------
+^!p::
+Send, #p
+return
 
 ;------------------------------------------------
 ;--------- Remap Replacement for Win-D ----------
@@ -2411,7 +2423,7 @@ WhichMonitor()
    WinGetPos, xpos, , , ,A
 
    ; HACK: account for the edges of the monitor when the window is maximized
-   xpos += 5
+   xpos += 10 
 
    if(xpos < middle)
    {
@@ -2563,6 +2575,19 @@ MultiLauncherFunction:
             Run, %fallbackbrowser%
          }
       }
+   if A_ThisMenuItemPos = 2
+   {
+      SetTitleMatchMode, 3
+
+      IfWinExist, Calculator
+      {
+         WinActivate
+      }
+      else
+      {
+         Run, calc
+      }
+   }
    ; -- After this is the run clipboard contents item
 return
 
