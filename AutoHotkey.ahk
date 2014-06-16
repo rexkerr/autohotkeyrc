@@ -683,6 +683,13 @@ return
 ;*****************************************************************************
 
 ;------------------------------------------------
+;--------- Remap Replacement for Win-P ----------
+;------------------------------------------------
+^!p::
+Send, #p
+return
+
+;------------------------------------------------
 ;--------- Remap Replacement for Win-D ----------
 ;------------------------------------------------
 ^!d::
@@ -2431,7 +2438,7 @@ WhichMonitor()
    WinGetPos, xpos, , , ,A
 
    ; HACK: account for the edges of the monitor when the window is maximized
-   xpos += 5
+   xpos += 10 
 
    if(xpos < middle)
    {
