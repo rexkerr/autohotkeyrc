@@ -560,8 +560,6 @@ Menu, WindowPositionsMenu, Add, &Columns, :ColumnWindowPositionsMenu
 Menu, WindowPositionsMenu, Add
 Menu, WindowPositionsMenu, Add, &Switch, WindowPositionsFunction
 
-Menu, LyncMeetingsMenu, Add, PRIVATE, LyncMeetingsFunction
-
 
 ^!+b:: 
 Menu, SearchTypes, show
@@ -575,14 +573,9 @@ return
 Menu, MiscCommandsMenu, show
 return
 
-^!+F6::
-Menu, LyncMeetingsMenu, show
-return
-
 ^!+F12::
 Menu, WindowPositionsMenu, show
 return
-
 
 ;                                                                       }}}
 
@@ -665,18 +658,6 @@ return
 ;}}}
 ;*****************************************************************************
 
-
-
-;*****************************************************************************
-LyncMeetingsFunction: ;{{{
-   ; PRIVATE
-return
-;}}}
-;*****************************************************************************
-
-
-
-
 ;*****************************************************************************
 ;  Windows Key Replacement Mappings                                        {{{
 ;*****************************************************************************
@@ -740,7 +721,6 @@ return
 
 ;                                                                          }}}
 ;*****************************************************************************
-
 
 ;*****************************************************************************
 ; <A>` -- Cycle windows of the same winclass as the current window 
@@ -1341,6 +1321,7 @@ return
 ;------------------------------------------------
 ^!+g::
    SetTitleMatchMode, 2
+   GroupAdd, chrome_windows, ahk_class Chrome_WidgetWin_0,,,Grooveshark
    GroupAdd, chrome_windows, ahk_class Chrome_WidgetWin_1,,,Grooveshark
    GroupActivate, chrome_windows, R
 return
