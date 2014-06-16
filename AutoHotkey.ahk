@@ -563,6 +563,10 @@ Menu, WindowPositionsMenu, Add, &Switch, WindowPositionsFunction
 
 Menu, LyncMeetingsMenu, Add, PRIVATE, LyncMeetingsFunction
 
+;*****************************************************************************
+;    END OF AUTORUN, INCLUDING MACHINE SPECIFIC FILE WHICH MIGHT END IT
+;*****************************************************************************
+#Include %A_ScriptDir%\this_machine.ahk
 
 ^!+b:: 
 Menu, SearchTypes, show
