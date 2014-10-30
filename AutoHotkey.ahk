@@ -2468,8 +2468,8 @@ GetMonitorLeft(monnum)
 
 IsCloseTo(constant, variable)
 {
-  vp := variable + 5
-  vm := variable - 5
+  vp := variable + 3
+  vm := variable - 3
 
   if( constant < vp )
   {
