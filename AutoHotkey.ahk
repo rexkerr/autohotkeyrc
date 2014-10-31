@@ -2466,22 +2466,6 @@ GetMonitorLeft(monnum)
 }
 
 
-IsCloseTo(constant, variable)
-{
-  vp := variable + 5
-  vm := variable - 5
-
-  if( constant < vp )
-  {
-     if(constant > vm)
-     {
-        return 1
-     }
-  }
-
-  return 0
-}
-
 Min(a, b)
 {
    if(a < b)
