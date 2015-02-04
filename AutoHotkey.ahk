@@ -2470,46 +2470,6 @@ GetMonitorLeft(monnum)
 }
 
 
-IsCloseTo(constant, variable)
-{
-  vp := variable + 5
-  vm := variable - 5
-
-  if( constant < vp )
-  {
-     if(constant > vm)
-     {
-        return 1
-     }
-  }
-
-  return 0
-}
-
-Min(a, b)
-{
-   if(a < b)
-   {
-      return a
-   }
-   else
-   {
-      return b
-   }
-}
-
-Max(a, b)
-{
-   if(a > b)
-   {
-      return a
-   }
-   else
-   {
-      return b
-   }
-}
-
 Abs(v)
 {
    if(v < 0)
@@ -3018,8 +2978,9 @@ Return  ;
 PREVENTSCREENSAVER:
 IfGreater, A_TimeIdle, 90000
 {
-   Send {Shift Down}{Shift Up}
-   TrayTip, IDLE, Sent Keystroke, 1, 1
+   MouseMove,3,0,,R
+   MouseMove,-3,0,,R
+   TrayTip, IDLE, Sent Mouse Wiggle, 1, 1
    Sleep 300
    TrayTip
 }
