@@ -756,16 +756,18 @@ return
 ;*****************************************************************************
 ^!+n::
    GroupAdd, lync_windows, ahk_class IMWindowClass 
-   GroupAdd, lync_windows, ahk_class CommunicatorMainWindowClass
+   GroupAdd, lync_windows, ahk_class LyncConversationWindowClass
    GroupActivate, lync_windows, R
 return
 
 ;*****************************************************************************
 ; <CS>N -- Open Lync main window
 ;*****************************************************************************
-;^+n::
+^+n::
 ;   Run, "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Microsoft Lync\Microsoft Lync 2010.lnk"
-;return
+   GroupAdd, lync_main_windows, ahk_class CommunicatorMainWindowClass
+   GroupActivate, lync_main_windows, R
+return
 
 
 ;*****************************************************************************
@@ -785,21 +787,21 @@ return
 ;          <CAS>O -- Launch/Activate Outlook Mail
 ;------------------------------------------------
 ^!+o::
-   Run, C:\Program Files (x86)\Microsoft Office\OFFICE14\OUTLOOK.EXE  /recycle
+   Run, C:\Program Files (x86)\Microsoft Office\OFFICE15\OUTLOOK.EXE  /recycle
 return
 
 ;------------------------------------------------
 ;         <CAS>T -- Launch/Activate Outlook Tasks
 ;------------------------------------------------
 ^!+t::
-   Run, C:\Program Files (x86)\Microsoft Office\OFFICE14\OUTLOOK.EXE /recycle /select outlook:tasks
+   Run, C:\Program Files (x86)\Microsoft Office\OFFICE15\OUTLOOK.EXE /recycle /select outlook:tasks
 return
 
 ;------------------------------------------------
 ;                <CS>T -- Create New Outlook Task
 ;------------------------------------------------
 ; ^+t::
-;    Run, C:\Program Files (x86)\Microsoft Office\OFFICE14\OUTLOOK.EXE /c ipm.task
+;    Run, C:\Program Files (x86)\Microsoft Office\OFFICE15\OUTLOOK.EXE /c ipm.task
 ; return
 
 ;------------------------------------------------
@@ -812,7 +814,7 @@ IfWinExist, Calendar - Mailbox - Kerr
 }
 else
 {
-  Run, C:\Program Files (x86)\Microsoft Office\OFFICE14\OUTLOOK.EXE /recycle /select outlook:calendar
+  Run, C:\Program Files (x86)\Microsoft Office\OFFICE15\OUTLOOK.EXE /recycle /select outlook:calendar
 }
 return
 
@@ -828,7 +830,7 @@ return
 ;    <CS>M -- Outlook New Message
 ;------------------------------------------------
 ^+M::
-  Run, C:\Program Files (x86)\Microsoft Office\OFFICE14\OUTLOOK.EXE /c ipm.note
+  Run, C:\Program Files (x86)\Microsoft Office\OFFICE15\OUTLOOK.EXE /c ipm.note
 return
 
 
