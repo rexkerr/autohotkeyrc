@@ -756,16 +756,18 @@ return
 ;*****************************************************************************
 ^!+n::
    GroupAdd, lync_windows, ahk_class IMWindowClass 
-   GroupAdd, lync_windows, ahk_class CommunicatorMainWindowClass
+   GroupAdd, lync_windows, ahk_class LyncConversationWindowClass
    GroupActivate, lync_windows, R
 return
 
 ;*****************************************************************************
 ; <CS>N -- Open Lync main window
 ;*****************************************************************************
-;^+n::
+^+n::
 ;   Run, "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Microsoft Lync\Microsoft Lync 2010.lnk"
-;return
+   GroupAdd, lync_main_windows, ahk_class CommunicatorMainWindowClass
+   GroupActivate, lync_main_windows, R
+return
 
 
 ;*****************************************************************************
@@ -1323,7 +1325,7 @@ return
 ;               <CAS>F -- Launch/Activate Firefox
 ;------------------------------------------------
 ^!+f::
-  GroupAdd, firefox_windows, ahk_class MozillaUIWindowClass
+  GroupAdd, firefox_windows, ahk_class MozillaWindowClass
   GroupActivate, firefox_windows, R
   WinShow
 return
@@ -1618,8 +1620,9 @@ return
 return
 
 volup:
-; Send, {VOLUME_UP}
-   SoundSet, +2
+   Send, {VOLUME_UP}
+   Send, {VOLUME_UP}
+   ; SoundSet, +2
    Gosub, vol_OSD
 return
 
@@ -1642,8 +1645,9 @@ return
 return
 
 voldown:
-;Send, {VOLUME_DOWN}
-   SoundSet, -2
+   Send, {VOLUME_DOWN}
+   Send, {VOLUME_DOWN}
+   ; SoundSet, -2
    Gosub, vol_OSD
 return
 
@@ -1662,8 +1666,8 @@ return
 return
 
 mute:
-     ;Send, {VOLUME_MUTE}
-     SoundSet, +1, , mute
+     Send, {VOLUME_MUTE}
+     ; SoundSet, +1, , mute
      Gosub, vol_OSD
 return
 
